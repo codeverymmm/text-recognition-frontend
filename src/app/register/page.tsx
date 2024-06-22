@@ -6,15 +6,34 @@ import React from 'react';
 import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form';
 
 type FormValues = {
+  username: string;
+  fullname: string;
   email: string;
   password: string;
 };
 
 function App() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data);
-    // Your data handling logic here
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const response = await fetch('http://localhost:8000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+
+      const result = await response.json();
+      console.log('Registration successful:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -22,6 +41,26 @@ function App() {
       <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Login Form</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-gray-700">Username</label>
+            <input
+              type="text"
+              {...register("username", { required: "Username is required" })}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+            />
+            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+          </div>
+          
+          <div>
+            <label className="block text-gray-700">Full Name</label>
+            <input
+              type="text"
+              {...register("fullname", { required: "Full Name is required" })}
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+            />
+            {errors.fullname && <p className="text-red-500 text-sm mt-1">{errors.fullname.message}</p>}
+          </div>
+          
           <div>
             <label className="block text-gray-700">Email</label>
             <input
