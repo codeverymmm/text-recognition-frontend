@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { setCookie } from 'cookies-next';
+import { cookies } from "next/headers";
 
 const handler = NextAuth({
   providers: [
@@ -38,7 +40,8 @@ const handler = NextAuth({
 
           const user = await res.json();
           console.log('Fetched user:', user);
-
+          const expires = new Date(Date.now() + 10 * 1000);
+          cookies().set("token", user.access_token, { expires: new Date(Date.now() + 86400000), httpOnly: true });
           if (user) {
             return {
               id: user.id,
@@ -65,7 +68,14 @@ const handler = NextAuth({
   ],
   pages: {
     error: '/auth/error'
+  },
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Redirect to a specific page after sign-in
+      return `${baseUrl}/dashboard`;  // Change '/dashboard' to your desired path
+    }
   }
+  
 });
 
 export { handler as GET, handler as POST };
