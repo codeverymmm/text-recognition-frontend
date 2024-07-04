@@ -6,6 +6,11 @@ function UpperBar() {
     <div className="bg-blue-600 p-4 flex justify-between items-center">
       <h1 className="text-white text-xl font-bold">My App</h1>
       <div>
+        <Link to="/upload">
+          <button className="bg-white text-blue-600 px-4 py-2 rounded mr-2 hover:bg-gray-100">
+            Upload
+          </button>
+        </Link>
         <Link to="/login">
           <button className="bg-white text-blue-600 px-4 py-2 rounded mr-2 hover:bg-gray-100">
             Login
