@@ -11,9 +11,9 @@ function UpperBar() {
             Upload
           </button>
         </Link>
-        <Link to="/login">
+        <Link to="/signin">
           <button className="bg-white text-blue-600 px-4 py-2 rounded mr-2 hover:bg-gray-100">
-            Login
+            SignIn
           </button>
         </Link>
         <Link to="/register">

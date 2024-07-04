@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UpperBar from './components/UpperBar';
-import Login from './pages/login';
+import Login from './pages/signin';
 import Register from './pages/register';
 import UploadFile from './components/UploadFile';
 
